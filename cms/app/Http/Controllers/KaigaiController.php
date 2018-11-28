@@ -267,53 +267,78 @@ public function genre_insert(Request $request) {
 
 //book登録ページ
 public function book() {
-    $books=Booke::orderBy('id', 'asc')->get();
+    $books=Book::orderBy('id', 'asc')->get();
+    $genres=Genre::orderBy('id','asc')->get();
+    $tohans=Tohan::orderBy('id','asc')->get();
+    
         return view('book',
-        ['books' => $books,]
+    
+        ['books' => $books,'genres'=>$genres,'tohans'=>$tohans]
         );
     }
     
 //ポストされてきたareaをインサートする処理
 public function book_insert(Request $request) {
-     $validator = Validator::make($request->all(), [
-      
-      'isbn13'           =>'required | max: 13',
-      'publisher'        =>'required | max: 20',
-      'book_title'       =>'required | max: 50',
-      'price'            =>'required | max: 6',
-      'price_2'          =>'required | max: 6',
-      'book_description' =>'required | max: 1000',
-      'book_image'       =>'required | max: 100',
-      'new_flag'         =>'required | max: 2',
+ // //バリデーション     
+     $validate_rule  = [
+      'isbn13'           =>'required',
+      'publisher'        =>'required',
+      'book_title'       =>'required',
+      'price'            =>'required',
+      'price_2'          =>'required',
+      'book_description' =>'required',
+      'book_image'       =>'required',
+      'new_flag'         =>'required',
       'publish_date'     =>'required',
       'deadline_date'    =>'required',
       'emergency_flag'   =>'required',
       'tohan_id'         =>'required',
       'genre_id'         =>'required'   
-          
-          
-      ]);
-      if ($validator->fails()){
-          return redirect('book')
-          ->withInput()
-          ->withError($validator);
-      }
-      $book = new Book;
-      $book->isbn13           = $request->isbn13;
-      $book->publisher        = $request->publisher;
-      $book->book_title       = $request->book_title;
-      $book->price            = $request->price;  
-      $book->price_2          = $request->price_2;
-      $book->book_description = $request->book_description;
-      $book->book_image       = $request->book_image;
-      $book->new_flag         = $request->new_flag;
-      $book->publish_date     = $request->publish_date;
-      $book->deadline_date    = $request->deadline_date;  
-      $book->emergency_flag   = $request->emergency_flag;
-      $book->tohan_id         = $request->tohan_id;
-      $book->genre_id         = $request->genre_id;
+      ];
+ 
+    $error_msg=[
+        
+      'isbn13.required'           =>'isbn13が入力されていません',
+      'publisher.required'        =>'出版社が入力されていません',
+      'book_title.required'       =>'書名が入力されていません',
+      'price.required'            =>'予価が入力されていません',
+      'price_2.required'          =>'予価２が入力されていません',
+      'book_description.required' =>'書誌情報が入力されていません',
+      'book_image.required'       =>'書影が入力されていません',
+      'new_flag.required'         =>'新刊か既刊が入力されていません',
+      'publish_date.required'     =>'発売日が入力されていません',
+      'deadline_date.required'    =>'締切日が入力されていません',
+      'emergency_flag.required'   =>'至急品が記入されていません',
+      'tohan_id.required'         =>'トーハンの担当が記入されていません',
+      'genre_id.required'         =>'ジャンルが記入されていません'   
+      ];
+     
+        $validator = Validator::make($reqdruest->all(), $validate_rule, $error_msg);
+
+        // バリデーション:エラー
+        if ($validator->fails()) {
+            return redirect('/book')
+                ->withInput()
+                ->withErrors($validator);
+        }
+  
       
-      $book->save();
+      $books = new Book;
+      $books->isbn13           = $request->isbn13;
+      $books->publisher        = $request->publisher;
+      $books->book_title       = $request->book_title;
+      $books->price            = $request->price;  
+      $books->price_2          = $request->price_2;
+      $books->book_description = $request->book_description;
+      $books->book_image       = $request->book_image;
+      $books->new_flag         = $request->new_flag;
+      $books->publish_date     = $request->publish_date;
+      $books->deadline_date    = $request->deadline_date;  
+      $books->emergency_flag   = $request->emergency_flag;
+      $books->tohan_id         = $request->tohan_id;
+      $books->genre_id         = $request->genre_id;
+      
+      $books->save();
       return redirect('book');
     }
     
@@ -323,6 +348,42 @@ public function book_insert(Request $request) {
         return redirect('book');
     }     
     
+////order
+
+//order登録ページ       
+ 
+ public function order() {
+        $books =Book::orderBy('deadline_date', 'asc')->get();
+        $users =User::orderBy('id', 'asc')->get(); 
+
+
+       return view('order',
+        ['books' =>  $books, 'users' => $users]
+        );
+    }
     
+//ポストされてきたuserをインサートする処理
+    public function order_insert(Request $request) {
+      $validator = Validator::make($request->all(), [
+          'store_name' => 'required | max: 20',
+    
+      ]);
+      if ($validator->fails()){
+          return redirect('store')
+          ->withInput()
+          ->withError($validator);
+      }
+      $stores = new Store;
+      $stores->store_name = $request->store_name;
+      $stores->store_code = $request->store_code;
+      $stores->user_id = $request->user_id;
+      $stores->bansen =$request->bansen;
+      $stores->air_sea =$request->air_sea;
+      $stores->tohan_id = $request->tohan_id;
+      $stores->store_category = $request->store_category;
+      
+      $stores->save();
+      return redirect('store');
+    }    
 
 }

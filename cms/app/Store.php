@@ -20,4 +20,8 @@ class Store extends Model
               return $this->belongsTo('App\Store_category','store_category','id');
             // return $this->belongsTo('App\User', '外部キーのカラム名', '親元のid扱いのカラム名');
     }
+    public function books(){
+     return $this->belongsToMany('App\Book');
+     // return $this->belongsTo('App\User', '外部キーのカラム名', '親元のid扱いのカラム名'); 
+    }
 }

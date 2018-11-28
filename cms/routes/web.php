@@ -51,6 +51,16 @@ Route::get('/genre','KaigaiController@genre');
 Route::post('/genre_insert', 'KaigaiController@genre_insert');
 Route::post('/genre/delete/{genre}', 'KaigaiController@genre_delete');
 
+//book登録画面
+Route::get('/book','KaigaiController@book');
+Route::post('/book_insert', 'KaigaiController@book_insert');
+Route::post('/book/delete/{genre}', 'KaigaiController@book_delete');
+
+//order登録画面
+Route::get('/order','KaigaiController@order');
+Route::post('/order_insert', 'KaigaiController@order_insert');
+
+
 
 
 ///awabukuのデータ

@@ -26,3 +26,4 @@
 [23-Nov-2018 00:28:21 Asia/Tokyo] PHP Fatal error:  Cannot redeclare App\Http\Controllers\KaigaiController::genre_delete() in /home/ubuntu/workspace/cms/app/Http/Controllers/KaigaiController.php on line 306
 [23-Nov-2018 00:28:33 Asia/Tokyo] PHP Fatal error:  Cannot redeclare App\Http\Controllers\KaigaiController::genre_delete() in /home/ubuntu/workspace/cms/app/Http/Controllers/KaigaiController.php on line 306
 [23-Nov-2018 00:28:36 Asia/Tokyo] PHP Fatal error:  Cannot redeclare App\Http\Controllers\KaigaiController::genre_delete() in /home/ubuntu/workspace/cms/app/Http/Controllers/KaigaiController.php on line 306
+[28-Nov-2018 17:13:00 Asia/Tokyo] PHP Fatal error:  Cannot redeclare App\Http\Controllers\KaigaiController::store_insert() in /home/ubuntu/workspace/cms/app/Http/Controllers/KaigaiController.php on line 366
